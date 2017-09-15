@@ -1,8 +1,10 @@
 using Graphs
 using Base.Test
 
+import Compat: xor
+
 function has_match(regex, str)
-    !isa(match(regex, str), Nothing)
+    match(regex, str) !== nothing
 end
 
 function xor(a, b)

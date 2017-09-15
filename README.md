@@ -1,10 +1,15 @@
 ## Graphs.jl
 
-[![Build Status](https://travis-ci.org/JuliaLang/Graphs.jl.svg?branch=master)](https://travis-ci.org/JuliaLang/Graphs.jl)
-[![Coverage Status](https://img.shields.io/coveralls/JuliaLang/Graphs.jl.svg)](https://coveralls.io/r/JuliaLang/Graphs.jl?branch=master)
+[![Build Status](https://travis-ci.org/JuliaArchive/Graphs.jl.svg?branch=master)](https://travis-ci.org/JuliaArchive/Graphs.jl)
+[![Coverage Status](https://img.shields.io/coveralls/JuliaArchive/Graphs.jl.svg)](https://coveralls.io/r/JuliaArchive/Graphs.jl?branch=master)
 
-Graphs.jl is a Julia package that provides graph types and algorithms. The design of this package is inspired by the [Boost Graph Library](http://www.boost.org/doc/libs/1_53_0/libs/graph/doc/index.html) (*e.g.* using standardized generic interfaces), while taking advantage of Julia's language features (*e.g.* multiple dispatch).
+[![Graphs](http://pkg.julialang.org/badges/Graphs_0.5.svg)](http://pkg.julialang.org/?pkg=Graphs&ver=0.5)
+[![Graphs](http://pkg.julialang.org/badges/Graphs_0.6.svg)](http://pkg.julialang.org/?pkg=Graphs&ver=0.6)
+[![Graphs](http://pkg.julialang.org/badges/Graphs_0.7.svg)](http://pkg.julialang.org/?pkg=Graphs&ver=0.7)
 
+Graphs.jl is a Julia package that provides graph types and algorithms. The design of this package is inspired by the [Boost Graph Library](http://www.boost.org/doc/libs/1_53_0/libs/graph/doc/index.html) (*e.g.* using standardized generic interfaces), while taking advantage of Julia's language features (*e.g.* multiple dispatch). This library allows storing of own information in the graph structure -- useful in many cases.
+
+**Note:** as of 2016, this package's original author is no longer actively maintaining it, but there are several active users in the community. We'll engage as best we can, and feel free to open issues here to improve this library. There is a sister library, [LightGraphs](https://github.com/JuliaGraphs/LightGraphs.jl), focused on a slightly different set of use cases.
 
 ### Main Features
 
@@ -39,4 +44,4 @@ In addition to the generic abstraction, there are other important features:
 
 ### Documentation
 
-Please refer to [*Graph.jl Documentation*](http://graphsjl-docs.readthedocs.org/en/latest/) for latest documentation.
+Please refer to [*Graphs.jl Documentation*](http://graphsjl-docs.readthedocs.org/en/latest/) for latest documentation.

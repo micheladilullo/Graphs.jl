@@ -20,7 +20,7 @@ immutable DijkstraHEntry{V,D}
     dist::D
 end
 
-< (e1::DijkstraHEntry, e2::DijkstraHEntry) = e1.dist < e2.dist
+<(e1::DijkstraHEntry, e2::DijkstraHEntry) = e1.dist < e2.dist
 
 # create Dijkstra states
 
@@ -42,7 +42,7 @@ end
 #
 ###################################################################
 
-abstract AbstractDijkstraVisitor
+@compat abstract type AbstractDijkstraVisitor end
 
 # invoked when a new vertex is first encountered
 discover_vertex!(visitor::AbstractDijkstraVisitor, u, v, d) = nothing

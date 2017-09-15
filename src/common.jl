@@ -1,6 +1,7 @@
 # Common facilities
 
-typealias AttributeDict Dict{UTF8String, Any}
+#typealias
+@compat const AttributeDict = Dict{String, Any}
 
 #################################################
 #
@@ -19,17 +20,17 @@ vertex_index(v::KeyVertex) = v.index
 
 type ExVertex
     index::Int
-    label::UTF8String
+    label::Compat.UTF8String
     attributes::AttributeDict
 
-    ExVertex(i::Int, label::String) = new(i, label, AttributeDict())
+    ExVertex(i::Int, label::AbstractString) = new(i, label, AttributeDict())
 end
 
-make_vertex(g::AbstractGraph{ExVertex}, label::String) = ExVertex(num_vertices(g) + 1, utf8(label))
+make_vertex(g::AbstractGraph{ExVertex}, label::AbstractString) = ExVertex(num_vertices(g) + 1, String(label))
 vertex_index(v::ExVertex) = v.index
 attributes(v::ExVertex, g::AbstractGraph) = v.attributes
 
-typealias ProvidedVertexType Union(KeyVertex, ExVertex)
+@compat const ProvidedVertexType = @compat(Union{KeyVertex, ExVertex})
 
 vertex_index{V<:ProvidedVertexType}(v::V, g::AbstractGraph{V}) = vertex_index(v)
 
@@ -55,7 +56,7 @@ immutable Edge{V}
     source::V
     target::V
 end
-typealias IEdge Edge{Int}
+@compat const IEdge = Edge{Int}
 
 Edge{V}(i::Int, s::V, t::V) = Edge{V}(i, s, t)
 make_edge{V,E<:Edge}(g::AbstractGraph{V,E}, s::V, t::V) = Edge(num_edges(g) + 1, s, t)
@@ -159,7 +160,7 @@ next(a::SourceIterator, s::Int) = ((e, s) = next(a.lst, s); (source(e, a.g), s))
 #
 ################################################
 
-abstract AbstractEdgePropertyInspector{T}
+@compat abstract type AbstractEdgePropertyInspector{T} end
 
 edge_property_requirement{T, V}(visitor::AbstractEdgePropertyInspector{T}, g::AbstractGraph{V}) = nothing
 
@@ -179,7 +180,7 @@ edge_property{T,V}(visitor::VectorEdgePropertyInspector{T}, e, g::AbstractGraph{
 edge_property_requirement{T, V}(visitor::AbstractEdgePropertyInspector{T}, g::AbstractGraph{V}) = @graph_requires g edge_map
 
 type AttributeEdgePropertyInspector{T} <: AbstractEdgePropertyInspector{T}
-  attribute::UTF8String
+  attribute::Compat.UTF8String
 end
 
 function edge_property{T}(visitor::AttributeEdgePropertyInspector{T},edge::ExEdge, g)

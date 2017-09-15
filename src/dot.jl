@@ -4,7 +4,7 @@
 # http://www.graphviz.org/pub/scm/graphviz2/doc/info/lang.html
 
 # Write the dot representation of a graph to a file by name.
-function to_dot(graph::AbstractGraph, filename::String,attrs::AttributeDict=AttributeDict())
+function to_dot(graph::AbstractGraph, filename::AbstractString, attrs::AttributeDict=AttributeDict())
     open(filename,"w") do f
         to_dot(graph, f, attrs)
     end
@@ -14,7 +14,7 @@ end
 function to_dot(graph::AbstractGraph, attrs::AttributeDict=AttributeDict())
     str = IOBuffer()
     to_dot(graph, str, attrs)
-    takebuf_string(str)
+    @compat String(take!(str)) #takebuf_string(str)
 end
 
 # Write the dot representation of a graph to a stream.
@@ -24,7 +24,7 @@ function to_dot{G<:AbstractGraph}(graph::G, stream::IO,attrs::AttributeDict=Attr
 
     write(stream, "$(graph_type_string(graph)) graphname {\n")
     write(stream, "$(to_dot_graph(attrs))")
-    if implements_edge_list(graph) && implements_vertex_map(graph) 
+    if implements_edge_list(graph) && implements_vertex_map(graph)
         for vtx in  vertices(graph)
             attrs = has_vertex_attrs ?  "\t$(to_dot(attributes(vtx,graph)))" : ""
             write(stream,"$(vertex_index(vtx,graph))$attrs\n")
@@ -63,7 +63,7 @@ function to_dot(attrs::AttributeDict)
     if isempty(attrs)
         ""
     else
-        string("[",join(map(to_dot,collect(attrs)),","),"]")
+        string("[",join(map(a -> to_dot(a[1], a[2]), collect(attrs)),","),"]")
     end
 end
 # write a graph wide attributes example: size = "4,4";
@@ -71,11 +71,13 @@ function to_dot_graph(attrs::AttributeDict)
     if isempty(attrs)
         ""
     else
-        string(join(map(to_dot, collect(attrs)),";\n"),";\n")
+        string(join(map(a -> to_dot(a[1], a[2]), collect(attrs)),";\n"),";\n")
     end
 end
 
-to_dot(attr_tuple::@compat Tuple{UTF8String, Any}) = "\"$(attr_tuple[1])\"=\"$(attr_tuple[2])\""
+to_dot(attr::AbstractString, value) = "\"$attr\"=\"$value\""
+
+to_dot(attr_tuple::@compat Tuple{String, Any}) = "\"$(attr_tuple[1])\"=\"$(attr_tuple[2])\""
 
 function graph_type_string(graph::AbstractGraph)
     is_directed(graph) ? "digraph" : "graph"
@@ -85,8 +87,16 @@ function edge_op(graph::AbstractGraph)
     is_directed(graph) ? "->" : "--"
 end
 
-function plot(g::AbstractGraph)
-    stdin, proc = open(`neato -Tx11`, "w")
+function plot(g::AbstractGraph;gviz_args="")
+    if !isequal(gviz_args,"")
+        # Provide the command line code for GraphViz directly
+        cla_list = split(gviz_args)
+        arg = `$cla_list`
+    else
+        # Default uses x11 window
+        arg = `neato -Tx11`
+    end
+    stdin, proc = open(arg, "w")
     to_dot(g, stdin)
     close(stdin)
 end

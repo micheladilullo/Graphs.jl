@@ -68,7 +68,7 @@ end
 
 # adjacency list with key vertices
 
-for g in [adjlist(KeyVertex{ASCIIString}), adjlist(ASCIIString)]
+for g in [adjlist(KeyVertex{String}), adjlist(String)]
 
     vs = [  add_vertex!(g, "a"),
             add_vertex!(g, "b"),
@@ -98,6 +98,23 @@ for g in [adjlist(KeyVertex{ASCIIString}), adjlist(ASCIIString)]
     @test isempty(out_neighbors(vs[3], g))
 
 end
+
+# Construct an AdjacencyList via a Vector of vertices
+
+g = adjlist(collect(1:3))
+add_edge!(g, 2, 1)
+add_edge!(g, 2, 3)
+
+@test num_vertices(g) == 3
+@test num_edges(g) == 2
+
+@test out_degree(g.vertices[1], g) == 0
+@test out_degree(g.vertices[2], g) == 2
+@test out_degree(g.vertices[3], g) == 0
+
+@test isempty(out_neighbors(g.vertices[1], g))
+@test out_neighbors(g.vertices[2], g) == [1, 3]
+@test isempty(out_neighbors(g.vertices[3], g))
 
 # # construct via adjacency matrix
 # A = [true true true; false false true; false false true]

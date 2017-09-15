@@ -23,9 +23,9 @@ end
 #   AdjList:    Vector{Vector{Int}}
 #   IncList:    Vector{Vector{IEdge}}
 #
-typealias SimpleGraph GenericGraph{Int,IEdge,UnitRange{Int},Vector{IEdge},Vector{Vector{IEdge}}}
+@compat const SimpleGraph = GenericGraph{Int,IEdge,UnitRange{Int},Vector{IEdge},Vector{Vector{IEdge}}}
 
-typealias Graph{V,E} GenericGraph{V,E,Vector{V},Vector{E},Vector{Vector{E}}}
+@compat const Graph{V,E} = GenericGraph{V,E,Vector{V},Vector{E},Vector{Vector{E}}}
 
 # construction
 
@@ -104,9 +104,9 @@ function add_edge!{V,E}(g::GenericGraph{V,E}, u::V, v::V, e::E)
     ui = vertex_index(u, g)::Int
     vi = vertex_index(v, g)::Int
 
-    push!(g.edges, e)
     push!(g.finclist[ui], e)
     push!(g.binclist[vi], e)
+    push!(g.edges, e)
 
     if !g.is_directed
         rev_e = revedge(e)

@@ -1,7 +1,9 @@
+isdefined(Base, :__precompile__) && __precompile__()
+
 module Graphs
 using DataStructures, Compat
 
-import Base: start, done, next, show, ==
+import Base: start, done, next, show, ==, <
 import Base: length, isempty, size, getindex, isless
 
 export
@@ -31,7 +33,7 @@ export
     KeyVertex, Edge, WeightedEdge, ExVertex, ExEdge, AttributeDict,
     collect_edges, collect_weighted_edges,
 
-    add_edge!, add_vertex!, add_edges!, add_vertices!,
+    add_edge!, add_vertex!,
 
     AbstractEdgePropertyInspector, VectorEdgePropertyInspector,
     ConstantEdgePropertyInspector, AttributeEdgePropertyInspector,
@@ -47,6 +49,9 @@ export
     # incidence_list
     GenericIncidenceList, SimpleIncidenceList, VectorIncidenceList, IncidenceList,
     simple_inclist, inclist,
+
+    # dict based graphs
+    IncidenceDict, incdict,
 
     # graph
     GenericGraph, SimpleGraph, Graph, simple_graph, graph,

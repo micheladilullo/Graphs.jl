@@ -21,7 +21,7 @@ immutable PrimHEntry{V,E,W}
     weight::W
 end
 
-< (e1::PrimHEntry, e2::PrimHEntry) = e1.weight < e2.weight
+<(e1::PrimHEntry, e2::PrimHEntry) = e1.weight < e2.weight
 
 # create Prim states
 
@@ -45,7 +45,7 @@ end
 #
 ###################################################################
 
-abstract AbstractPrimVisitor
+@compat abstract type AbstractPrimVisitor end
 
 # invoked when a new vertex is first encountered
 discover_vertex!(visitor::AbstractPrimVisitor, v, e, w) = nothing
